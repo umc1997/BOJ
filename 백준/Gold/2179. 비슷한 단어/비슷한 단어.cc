@@ -1,81 +1,47 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <cmath>
+#include <vector>
+#include <queue>
+#include <cstring>
+#include <map>
+#include <deque>
+#include <set>
+#include <stack>
 using namespace std;
-int min(int a,int b){
-    if(a<b){
-        return a;
-    }
-    else{
-        return b;
-    }
-}
 
-int max(int a,int b){
-    if(a>b){
-        return a;
-    }
-    else{
-return b;}
-}
-int main(void){
-    string arr[20001];
-    int n;
-    int max_size = 0;
-    int l = n;
-    int r = n;
+string input[20010];
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	// input & assignment
+	int N;
+	cin >> N;
+	for (int i = 0; i < N; i++) cin >> input[i];
+	// solution
+	int maxi = -1;
+	int a = 0;
+	int b = 1;
+	for (int i = 0; i < N; i++) {
+		for (int j = i + 1; j < N; j++) {
+			int cnt = 0;
+			for (int k = 0; k < min(input[i].size(), input[j].size()); k++) {
+				if (input[i][k] != input[j][k]) {
+					break;
+				}
+				cnt++;
+			}
+			if (cnt > maxi) {
+				maxi = cnt;
+				a = i;
+				b = j;
+			}
+		}
+	}
+	cout << input[min(a, b)] << '\n' << input[max(a, b)] << '\n';
 
-    cin >> n;
-    for(int i = 0;i<n;i++){
-        cin >> arr[i];
-
-    }
-
-    for(int i = 0;i<n;i++){
-        for(int j = i+1;j<n;j++){
-            if(arr[i] == arr[j]){
-                continue;
-            }
-            int length = min(arr[i].size(),arr[j].size());
-            if(length == arr[i].size()){
-                int temp = 0;
-                for(int k = 0;k<arr[i].size();k++){
-                    if(arr[i][k] != arr[j][k]){
-                        break;
-                    }
-                    temp++;
-                }
-
-                if(temp > max_size){
-                    max_size = temp;
-                    l = i;
-                    r = j;
-                }
-
-            }
-           else if(length == arr[j].size()){
-               int temp = 0;
-               for(int k = 0;k<arr[j].size();k++){
-                   if(arr[i][k] != arr[j][k]){
-                       break;
-                   }
-                   temp++;
-
-               }
-
-               if(temp > max_size){
-                   max_size = temp;
-                   l = i;
-                   r = j;
-               }
-
-           }                  
-
-        }
-    }
-     int small = min(l,r);
-     int big = max(l,r);
-
-    cout << arr[small] << '\n';
-     cout << arr[big];
-
+	return 0;
 }
