@@ -32,7 +32,7 @@ int main()
 	}
 	sort(v.begin(), v.end());
 	for (int i = 0; i <= D; i++) {
-		if (i > 0)
+		if (i > 1)
 			DP[i] = min(DP[i - 1] + 1, DP[i]);
 		for (int j = 0; j < v.size(); j++) {
 			int start = v[j].first;
