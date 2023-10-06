@@ -7,17 +7,19 @@
 #include <cstring>
 #include <map>
 #include <deque>
+#include <set>
+#include <stack>
 
 using namespace std;
 #define MAX 100000
-int visited[MAX + 1];
+int dist[MAX + 1];
 deque<int> Q = {};
 int main()
-{
+ {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
-	
+
 	// input & assignment
 	int N, K;
 	cin >> N >> K;
@@ -28,32 +30,31 @@ int main()
 		return 0;
 	}
 	Q.push_front(N);
+	memset(dist, 0xff, sizeof(dist));
+	dist[N] = 0;
 	while (!Q.empty()) {
-		int front = Q.front(); 
+		int front = Q.front();
 		if (front == K) {
-			result = visited[front];
+			cout << dist[front]<< endl;
 			break;
 		}
 		Q.pop_front();
-		int arr[3] = { front + 1 , front - 1, front * 2 };
+		int arr[3] = { front * 2, front - 1 , front + 1};
 		for (int i = 0; i < 3; i++)
 		{
 			int num = arr[i];
-			if (num > MAX || num < 0) continue;
-			if (visited[num] == 0) {
-				if (num == front * 2 && num != 0) {
-					visited[num] = visited[front];
-					Q.push_front(num);
-				}
-				else {
-					visited[num] = visited[front] + 1;
-					Q.push_back(num);
-				}
-			}				
-		}		
+			if (num > MAX || dist[num] >= 0 || num == 0) continue;
+			if (num == front * 2) {
+				dist[num] = dist[front];
+				Q.push_front(num);
+			}
+			else {
+				dist[num] = dist[front] + 1;
+				Q.push_back(num);
+			}
+		}
 	}
 	// output
-	cout << result << endl;
-	
+
 	return 0;
 }
